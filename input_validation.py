@@ -1,5 +1,9 @@
 import re   #regular Expressions
 
+validSpecialCharacters = [
+    '!','#','$','%','&',"'",'*','+','-','/','=','?','^','_','`','{','|','}','~'
+]
+
 def is_valid_email(email:str) -> bool:
     """
     Uses regular expression to validate email.
@@ -8,5 +12,39 @@ def is_valid_email(email:str) -> bool:
     True -- email is valid 
     False -- email is not valid
     """
-    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-    return re.match(pattern, email) is not None
+
+    if(type(email) != str): return False
+    if(not email or email == ""): return False
+    splitAt = email.split('@')
+    if(len(splitAt) != 2): return False
+    if(len(splitAt[0]) == 0): return False
+    firstChar = splitAt[0][0]
+    lastChar = splitAt[0][:]
+    if(not firstChar.isalnum and firstChar != '"'): return False
+    splitDot = splitAt[1].split('.')
+    if(len(splitDot) < 2): return False
+
+    for character in splitAt[0]:
+        isAlnum = character.isalnum
+        isDot = character == '.'
+        isSpecialAllowed = validSpecialCharacters.__contains__(character)
+        valid = isAlnum or isDot or isSpecialAllowed
+        if (not valid): return False
+
+    #DOMAINS BEFORE DOT
+    for character in splitDot[0]:
+        isAlnum = character.isalnum
+        isDot = character == '.'
+        isSpecialAllowed = validSpecialCharacters.__contains__(character)
+        valid = isAlnum or isDot or isSpecialAllowed
+        if (not valid): return False
+
+    #AFTER DOT        
+    for character in splitDot[1:]:
+        isAlpha = character.isalpha
+        isDot = character == '.'
+        valid = isAlpha or isDot
+        if (not valid): return False
+    return True
+
+print(is_valid_email("test@email.com"))
