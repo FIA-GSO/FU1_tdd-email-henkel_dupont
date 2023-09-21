@@ -19,13 +19,16 @@ def is_valid_email(email:str) -> bool:
     if(len(splitAt) != 2): return False
     if(len(splitAt[0]) == 0): return False
     firstChar = splitAt[0][0]
-    lastChar = splitAt[0][:]
-    if(not firstChar.isalnum and firstChar != '"'): return False
+    if(not firstChar.isalnum() and firstChar != '"'): 
+            return False
+    lastChar = splitAt[0][-1]
+    if(not lastChar.isalnum() and lastChar != '"'): 
+            return False
     splitDot = splitAt[1].split('.')
     if(len(splitDot) < 2): return False
 
     for character in splitAt[0]:
-        isAlnum = character.isalnum
+        isAlnum = character.isalnum()
         isDot = character == '.'
         isSpecialAllowed = validSpecialCharacters.__contains__(character)
         valid = isAlnum or isDot or isSpecialAllowed
@@ -33,7 +36,7 @@ def is_valid_email(email:str) -> bool:
 
     #DOMAINS BEFORE DOT
     for character in splitDot[0]:
-        isAlnum = character.isalnum
+        isAlnum = character.isalnum()
         isDot = character == '.'
         isSpecialAllowed = validSpecialCharacters.__contains__(character)
         valid = isAlnum or isDot or isSpecialAllowed
@@ -41,10 +44,10 @@ def is_valid_email(email:str) -> bool:
 
     #AFTER DOT        
     for character in splitDot[1:]:
-        isAlpha = character.isalpha
+        isAlpha = character.isalpha()
         isDot = character == '.'
         valid = isAlpha or isDot
         if (not valid): return False
     return True
 
-print(is_valid_email("test@email.com"))
+print(is_valid_email('"email"@example.com'))
