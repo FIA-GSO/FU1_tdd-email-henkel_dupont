@@ -61,7 +61,7 @@ def is_valid_email(email: str) -> bool:
 
 
 def is_valid_password(password: str):
-    if(type(password) != str): return ValueError
+    if(type(password) is not str): return TypeError
     length = len(password)
     if(length < 8): return False
     typesOfCharacters = get_types_of_characters_used(password)
@@ -72,16 +72,13 @@ def is_valid_password(password: str):
 
 
 def get_types_of_characters_used(password: str) -> int:
-    types = {"isLower": False, "isUpper": False,
-             "isDigit": False, "isSpecial": False}
+    types = {"isLower": False, "isUpper": False, "isDigit": False, "isSpecial": False}
     for character in password:
         if(character.isalpha() and character.isupper()): types["isUpper"] = True
         elif(character.isalpha() and character.islower()): types["isLower"] = True
         elif(character.isdigit()): types["isDigit"] = True
         else: types["isSpecial"] = True
-    typeCount = sum(types.values())
-    print(typeCount)
-    return typeCount
+    return sum(types.values())
 
 
 print(is_valid_password("aB1aaaaaaaabb"))

@@ -85,16 +85,14 @@ def test_is_valid_password_false(password):
 
 
 
-
-# typ -> Valueerror
-
-
-
-
-
-
-
-
+"""
+@pytest.mark.parametrize("password", [
+    (-1111111111111111111) # integer
+])
+def test_is_valid_password_true(password):
+    with pytest.raises(TypeError):
+        is_valid_password(password)
+"""
 
 @pytest.mark.parametrize("password", [
     ("IchBinEinLangesPasswort") # 20 types 2 -> True
