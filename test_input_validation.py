@@ -1,6 +1,7 @@
 import pytest
 from input_validation import is_valid_email
-
+from input_validation import is_valid_password
+"""
 @pytest.mark.parametrize("email", [
     ("test@email.com")
 ,   ("t.est@email.com")
@@ -66,3 +67,44 @@ def test_is_valid_email__ungueltige_Adressen(email):
     
     # assert
     assert response is False
+
+"""
+@pytest.mark.parametrize("password", [
+    ("abcd") # < 8 -> False
+,   ("aB1aaaaa") # 8 types 3 -> False
+,   ("aB1aaaaaaaab") # 12 types 3 -> False
+,   ("aBaaaaaaaaabb") # 13 types 2 -> False
+,   ("11111111111111111111") # 20 types 1 -> False
+])
+def test_is_valid_password_false(password):
+    # act
+    response = is_valid_password(password)
+
+    # assert
+    assert response is False
+
+
+
+
+# typ -> Valueerror
+
+
+
+
+
+
+
+
+
+@pytest.mark.parametrize("password", [
+    ("IchBinEinLangesPasswort") # 20 types 2 -> True
+,   ("!MeinPw8") # 8 types 4 -> True
+,   ("!MeinPw8abcd") # 12 types 4 -> True
+,   ("aB1aaaaaaaabb") # 13 types 3 -> ??
+])
+def test_is_valid_password_true(password):
+    # act
+    response = is_valid_password(password)
+
+    # assert
+    assert response is True
